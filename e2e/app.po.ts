@@ -2,11 +2,13 @@ import { browser, element, by } from 'protractor';
 
 export class CSDribbbleShotListPage {
   navigateToHome() {
-    return browser.get('/');
+    browser.get('/');
+    return browser.waitForAngular();    
   }
 
   navigateToShot() {
-    return browser.get('/shots/3305539');
+    browser.get('/shots/3305539');
+    return browser.waitForAngular();
   }
 
   getFirstChildren() {
