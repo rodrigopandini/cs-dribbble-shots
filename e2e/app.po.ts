@@ -3,7 +3,7 @@ import { browser, element, by } from 'protractor';
 export class CSDribbbleShotListPage {
   navigateToHome() {
     browser.get('/');
-    return browser.waitForAngular();    
+    return browser.waitForAngular();
   }
 
   navigateToShot() {
