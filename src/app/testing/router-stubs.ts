@@ -5,7 +5,6 @@ import { Component, Directive, Injectable, Input } from '@angular/core';
 import { NavigationExtras } from '@angular/router';
 
 @Directive({
-  
   selector: '[routerLink]',
   host: {
     '(click)': 'onClick()'
