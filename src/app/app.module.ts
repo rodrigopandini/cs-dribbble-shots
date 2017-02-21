@@ -14,11 +14,15 @@ import { ShotListComponent } from './shots/shot-list/shot-list.component';
 import { ShotComponent } from './shots/shot/shot.component';
 import { ShotService } from './shots/shared/shot.service';
 
+import { RouterLinkStubDirective, RouterOutletStubComponent } from './testing/router-stubs';
+
 @NgModule({
   declarations: [
     AppComponent,
     ShotListComponent,
-    ShotComponent
+    ShotComponent,
+    RouterLinkStubDirective,
+    RouterOutletStubComponent
   ],
   imports: [
     BrowserModule,
