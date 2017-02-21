@@ -28,7 +28,7 @@
     "build:prod": "ng build --target=production --environment=prod --output-hashing=bundles --no-progress",
     "lint": "ng lint --format stylish",
     "test": "ng test --single-run",
-    "test:ci": "ng test --code-coverage --no-progress --browsers SL_CHROME,SL_FIREFOX,SL_SAFARI7,SL_EDGE,SL_ANDROID5 --single-run",
+    "test:ci": "ng test --code-coverage --no-progress --browsers SL_CHROME,SL_ANDROID5 --single-run",
     "e2e": "ng e2e --no-watch",
     "e2e:ci": "ng e2e --no-progress --no-watch --target=production --environment=prod --browsers SL_CHROME,SL_ANDROID5",
     "cover": "ng test --watch=false --code-coverage",
