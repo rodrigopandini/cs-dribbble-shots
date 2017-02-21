@@ -1,0 +1,15 @@
+<p class="error" *ngIf="errorMessage">{{errorMessage}}</p>
+
+<md-card class="detail-card" *ngIf="shot">
+  <img md-card-image src="{{shot.image}}">
+  <md-card-header class="card-header">
+    <div md-card-avatar class="card-header-image" [style.background-image]="getAvatarStyle()"></div>
+    <span class="card-header-text">{{shot.user_name}}</span>
+  </md-card-header>
+  <md-card-content>
+    <div [innerHTML]="getFormatedDescription()"></div>
+  </md-card-content>
+  <md-card-actions>
+    <button md-button [routerLink]="['']">BACK</button>
+  </md-card-actions>
+</md-card>

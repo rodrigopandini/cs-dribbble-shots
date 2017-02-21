@@ -1,0 +1,64 @@
+language: node_js
+
+sudo: true
+
+dist: trusty
+
+node_js:
+  - "6.9.5"
+
+cache:
+  yarn: true
+  directories:
+    - node_modules
+
+addons:
+  # Saucelabs
+  sauce_connect: true
+  # Node 5+ requires a C++11 standard compliant compiler, so we'll use gcc.
+  # See more info at https://docs.travis-ci.com/user/languages/javascript-with-nodejs#Node.js-v4-(or-io.js-v3)-compiler-requirements.
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
+
+env:
+  global:
+    # Requirement for installing Node 5+
+    - CXX=g++-4.8
+    # Export Saucelabs credentials for global access.
+    - SAUCE_USERNAME=rodrigopandini
+    - secure: "2D7KhowJS0samSIQEbWP1uMDcPhSF6gNJUOtaHMr8S37/N0go7IRyM3Vx8jIsXmT66r+mkQ5rR+j9SSYs2NDVtoAHwgX+dFrnW0VIDu7JG8gi2xC1FBKkOxx9GB6o61iEAo6UUWIdUXoVJ+ebEAdQodmeTnn2hp/kQhATzN3TCQ/TgAszcaQ3Is/ngbJGiHiefTypD6HOlvEETdK7HbD0po10/uyXA4MS0pvOh0POcG+1oncnfIXi5uzGB2V/ffBAaS8Jpm7Qc/d7GZWBl7lhcdam8sXBGiBMG57XLz+MmJE5nWeMNyltXzUCfuTPbX7nVGjRK8BSlNF7Jy+yjHjlsMNCr87cRA1j0A+qq6tvX7ZWyglcoFNj7lro6az83aW0Gc2ZeBJJMB/26aJB2jdUiwEzwzmWS0tjx8kz2QntLrB5JWRWXyKrtxoZgKd5yBgjvFxODQOKNpUlDDH89x5c/lYRHZHfrRclWO6dxwQTL8UjLi9aqxoqyQSLrWL96bLhclquruQCirGeUGwZ8KbF/l5HJe6gQRTQE1Qz8BHG3h8hlkrHrbjQRoM56Ghq9S/WRQCVaRNL0U2Zi9EzPd+KJplYw2wjusCoXaBI9Rnd1j9/nSOGDiIMGCxJbdJyuG9NQU4JK04L6oh1b2YwQZAAKXVHZbIl6CgoMQgX+diEj8="
+
+before_install:
+  - export CHROME_BIN=chromium-browser
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+
+install:
+  - npm install
+
+before_script:
+  - npm install -g codecov
+  - npm install -g angular-cli-ghpages
+  - npm install coveralls
+  
+script:
+  # Code style/format check with tslint.
+  - npm run lint
+  # Unit tests.
+  - npm run test:ci
+  # Run and check coverage information
+  - codecov
+  - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+  # E2E tests.
+  - npm run e2e:ci
+  
+after_success:
+  # Build the project
+  - ng build --prod --base-href "http://rodrigopandini.com/cs-dribbble-shots/"
+  # Copy index page to 404 (fix for github problem)
+  - cp dist/index.html dist/404.html
+  # Publish the project
+  - ngh --repo=https://GH_TOKEN@github.com/rodrigopandini/cs-dribbble-shots.git --name="Rodrigo Pandini" --email=rodrigopandini@gmail.com
